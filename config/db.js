@@ -1,8 +1,12 @@
 const mongoose = require("mongoose");
+const dotenv = require('dotenv');
+//load env vars
+dotenv.config({ path: "./config/config.env" });
+
 
 const connectDB = async () => {
   const conn = await mongoose.connect(
-    "mongodb+srv://admin:admin@cluster0-rux1k.mongodb.net/devCamper?retryWrites=true&w=majority",
+    process.env.DATABASE,
     {
       useNewUrlParser: true,
       useCreateIndex: true,
