@@ -4,9 +4,7 @@ const asyncHandler = require("./../middleware/async");
 const geocoder = require("./../utils/geocoder");
 const Bootcamp = require("./../models/Bootcamp");
 
-
 exports.getBootcamps = asyncHandler(async (req, res, next) => {
-  
   res.status(200).json(res.advanceResults);
 });
 exports.getBootcamp = asyncHandler(async (req, res, next) => {
@@ -27,7 +25,6 @@ exports.getBootcamp = asyncHandler(async (req, res, next) => {
   });
 });
 exports.createBootcamp = asyncHandler(async (req, res, next) => {
-  console.log(req.body);
   const bootcamp = await Bootcamp.create(req.body);
 
   res.status(201).json({
