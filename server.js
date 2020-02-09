@@ -1,10 +1,10 @@
-const path = require('path');
+const path = require("path");
 const express = require("express");
 const dotenv = require("dotenv");
 const morgan = require("morgan");
 const colors = require("colors");
-const fileupload = require('express-fileupload');
-const cookieParser = require('cookie-parser');
+const fileupload = require("express-fileupload");
+const cookieParser = require("cookie-parser");
 const errorHandler = require("./middleware/error");
 const connectDB = require("./config/db");
 //load env vars
@@ -18,6 +18,7 @@ const bootcamps = require("./routes/bootcamps.js");
 const courses = require("./routes/courses.js");
 const auth = require("./routes/auth.js");
 const users = require("./routes/users.js");
+const reviews = require("./routes/reviews.js");
 
 const app = express();
 
@@ -36,13 +37,14 @@ if (process.env.NODE_ENV === "development") {
 app.use(fileupload());
 
 //set static folder
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, "public")));
 
 //Mount the routers
 app.use("/api/v1/bootcamps", bootcamps);
 app.use("/api/v1/courses", courses);
 app.use("/api/v1/auth", auth);
 app.use("/api/v1/users", users);
+app.use("/api/v1/reviews", reviews);
 
 app.use(errorHandler);
 
