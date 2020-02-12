@@ -86,9 +86,23 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
   // });
 });
 
+//Logout from the current user / clear cookie
+//GET api/v1/auth/logout
+
+exports.logout = asyncHandler(async (req, res, next) => {
+  res.cookie("token", "none", {
+    expires: new Date(Date.now() + 10 * 1000),
+    httpOnly: true
+  });
+
+  res.status(200).json({
+    success: true,
+    data: {}
+  });
+});
+
 //Get current logged in user
 exports.getMe = asyncHandler(async (req, res, next) => {
-  
   const user = await User.findById(req.user.id);
 
   res.status(200).json({
@@ -105,7 +119,6 @@ exports.updateDetails = asyncHandler(async (req, res, next) => {
     name: req.body.name,
     email: req.body.email
   };
-  
 
   const user = await User.findByIdAndUpdate(req.user.id, fieldsToUpdate, {
     new: true,
@@ -122,7 +135,7 @@ exports.updateDetails = asyncHandler(async (req, res, next) => {
 //PUT/api/v1/auth/updatePassword
 
 exports.updatePassword = asyncHandler(async (req, res, next) => {
-  let user = await User.findById(req.user.id).select('+password');
+  let user = await User.findById(req.user.id).select("+password");
 
   //Check current password
   if (!(await user.matchPassword(req.body.currentPassword))) {
@@ -134,9 +147,6 @@ exports.updatePassword = asyncHandler(async (req, res, next) => {
 
   sendTokenResponse(user, 200, res);
 });
-
-
-
 
 //Reset password
 //PUT/api/v1/auth/resetPassword/:resetToken
